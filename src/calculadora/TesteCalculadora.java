@@ -1,30 +1,50 @@
 package calculadora;
 
+/**
+ * Classe de testes da calculadora.
+ *
+ * @author Matteo
+ * @version 1.0
+ */
 public class TesteCalculadora {
 
+    /**
+     * Roda os testes principais.
+     *
+     * @param args argumentos do programa
+     */
     public static void main(String[] args) {
         Calculadora calc = new Calculadora();
 
-        System.out.println("--- testes de operações ---");
-        System.out.println("soma (2 + 3): " + calc.calcular(2, 3, "+"));
-        System.out.println("subtração (10 - 4): " + calc.calcular(10, 4, "-"));
-        System.out.println("multiplicação (5 * 5): " + calc.calcular(5, 5, "*"));
-        System.out.println("divisão (8 / 2): " + calc.calcular(8, 2, "/"));
+        testar(calc, 2, 3, "+", "5");
+        testar(calc, 10, 4, "-", "6");
+        testar(calc, 5, 5, "*", "25");
+        testar(calc, 8, 2, "/", "4.0");
+        testar(calc, 8, 0, "/", "Erro: divisão por zero");
+        testar(calc, 5, 5, "x", "Operação inválida");
+    }
 
-        System.out.println("\n--- testes de erros (qualquer exceção) ---");
-        
-        try {
-            System.out.println("tentando dividir 8 por 0...");
-            calc.calcular(8, 0, "/");
-        } catch (IllegalArgumentException e) {
-            System.out.println("erro ao dividir: " + e.getMessage());
-        }
+    /**
+     * Faz um teste da calculadora.
+     *
+     * @param calc calculadora usada
+     * @param a primeiro número
+     * @param b segundo número
+     * @param op operação
+     * @param esperado resultado esperado
+     */
+    public static void testar(Calculadora calc, int a, int b, String op, String esperado) {
+        String obtido = calc.calc(a, b, op);
 
-        try {
-            System.out.println("tentando usúario inválido 'x'...");
-            calc.calcular(5, 5, "x");
-        } catch (IllegalArgumentException e) {
-            System.out.println("não foi possivel conectar: " + e.getMessage());
+        System.out.println("-------------------------");
+        System.out.println("Entrada: " + a + " " + op + " " + b);
+        System.out.println("Esperado: " + esperado);
+        System.out.println("Obtido: " + obtido);
+
+        if (esperado.equals(obtido)) {
+            System.out.println("Teste passou");
+        } else {
+            System.out.println("Teste falhou");
         }
     }
 }
